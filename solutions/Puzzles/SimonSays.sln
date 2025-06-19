@@ -7,6 +7,8 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "SimonSays", "SimonSays\Simo
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "SimonSays.Messages.Nf", "SimonSays.Messages.Nf\SimonSays.Messages.Nf.nfproj", "{30A70FBB-A541-4C39-86B8-27503BE6DDF6}"
 EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "MessageBus.Nf", "MessageBus.Nf\MessageBus.Nf.nfproj", "{BD1FE752-B7E2-488C-8FF2-3944D472878D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,12 @@ Global
 		{30A70FBB-A541-4C39-86B8-27503BE6DDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30A70FBB-A541-4C39-86B8-27503BE6DDF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{30A70FBB-A541-4C39-86B8-27503BE6DDF6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1FE752-B7E2-488C-8FF2-3944D472878D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

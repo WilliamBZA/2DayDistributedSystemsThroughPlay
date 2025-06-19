@@ -1,6 +1,5 @@
 namespace SimonSays;
 
-using Amqp;
 using Iot.Device.Mcp23xxx;
 using nanoFramework.Hardware.Esp32;
 using SimonSays.Messages;
@@ -26,9 +25,10 @@ public class Program
         var buttonPins = new[] { 4, 5, 13, 7, 6, 10, 3, 2, 19, 18, 12, 1 };
         var gpioController = new GpioController();
 
-        var game = new SimonSaysGame(ledController, gpioController, buttonPins, difficulty: 5);
+        var connectionString = "";
+        var bus = new MessageBus(connectionString, "Simonsays_puzzle");
 
-        var bus = new MessageBus("Simonsays_puzzle");
+        var game = new SimonSaysGame(ledController, gpioController, buttonPins, difficulty: 5, bus);
         
         bus.On(typeof(ShowSequence), game.ShowSequence);
         bus.On(typeof(ShowSolved), game.ShowSolved);

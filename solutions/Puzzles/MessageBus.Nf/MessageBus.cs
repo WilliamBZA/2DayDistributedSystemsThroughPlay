@@ -3,14 +3,14 @@ using Amqp;
 using System;
 using System.Collections;
 
-public class MessageBus(string topicName)
+public class MessageBus(string connectionString, string topicName)
 {
     public delegate void MessageAction(Object message);
 
     public void Start()
     {
-        var connection = new Connection(new Address(""));
-        var session = new Session(connection);
+        var connection = new Connection(new Address(connectionString));
+        session = new Session(connection);
         var receiveLink = new ReceiverLink(session, "Simon Says receiver link", topicName);
 
         receiveLink.Start(1, (link, msg) =>
@@ -37,6 +37,16 @@ public class MessageBus(string topicName)
         });
     }
 
+    public void Publish(object message)
+    {
+        var destination = outgoingMessages[message.GetType()] as string;
+        var sender = senders[destination] as SenderLink;
+
+        var msg = new Message(message);
+        msg.ApplicationProperties = new Amqp.Framing.ApplicationProperties();
+        msg.ApplicationProperties["messagetype"] = message.GetType().FullName.ToLower();
+    }
+
     public void On(Type type, Action showSequence)
     {
         typeActionMaps[type.FullName.ToLower()] = showSequence;
@@ -47,10 +57,19 @@ public class MessageBus(string topicName)
         typeActionMaps[type.FullName.ToLower()] = messageHandler;
     }
 
-    internal void Route(Type type, string v)
+    public void Route(Type type, string destination)
     {
-        throw new NotImplementedException();
+        outgoingMessages[type] = destination;
+
+        if (!senders.Contains(destination))
+        {
+            var sender = new SenderLink(session, $"sender for {destination}", destination);
+            senders.Add(destination, sender);
+        }
     }
 
     Hashtable typeActionMaps = new Hashtable();
+    Hashtable outgoingMessages = new Hashtable();
+    Hashtable senders = new Hashtable();
+    private Session session;
 }

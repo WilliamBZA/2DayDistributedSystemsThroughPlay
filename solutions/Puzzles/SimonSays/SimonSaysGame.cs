@@ -1,6 +1,6 @@
 namespace SimonSays;
 
-using Amqp;
+using SimonSays.Messages;
 using System;
 using System.Device.Gpio;
 using System.Threading;
@@ -14,12 +14,14 @@ public class SimonSaysGame
     private int userStep;
     private readonly AutoResetEvent inputEvent = new AutoResetEvent(false);
     private int lastButtonPressed = -1;
+    private MessageBus bus;
 
-    public SimonSaysGame(LedController ledController, GpioController gpioController, int[] buttonPins, int difficulty)
+    public SimonSaysGame(LedController ledController, GpioController gpioController, int[] buttonPins, int difficulty, MessageBus bus)
     {
         this.ledController = ledController;
         this.buttonPins = buttonPins;
         this.difficulty = difficulty;
+        this.bus = bus;
 
         for (var i = 0; i < this.buttonPins.Length; i++)
         {
@@ -87,12 +89,7 @@ public class SimonSaysGame
 
     private void PublishPuzzleSolved()
     {
-        //var publishLink = new SenderLink(session, "SimonSaysSender", "puzzle_progress");
-
-        //var message = new Message("Puzzle solved!");
-        //publishLink.Send(message);
-        
-        //publishLink.Close();
+        bus.Publish(new PuzzleSolved());
     }
 
     public void ChangeDifficulty(int newDifficulty)
