@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonSays", "SimonSays\SimonSays.csproj", "{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonSays.Messages", "SimonSays.Messages\SimonSays.Messages.csproj", "{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3407FFA5-5A2D-4546-9FBF-A39BF78698E0}
+	EndGlobalSection
+EndGlobal
