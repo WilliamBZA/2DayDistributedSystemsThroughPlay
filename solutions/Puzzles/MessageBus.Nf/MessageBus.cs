@@ -3,19 +3,28 @@ using Amqp;
 using System;
 using System.Collections;
 
-public class MessageBus(string connectionString, string topicName)
+public class MessageBus
 {
+    public MessageBus(string connectionString, string topicName)
+    {
+        this.connectionString = connectionString;
+        this.topicName = topicName;
+
+        Console.WriteLine(connectionString);
+        
+        var connection = new Connection(new Address(connectionString));
+        session = new Session(connection);
+    }
+
     public delegate void MessageAction(Object message);
 
     public void Start()
     {
-        var connection = new Connection(new Address(connectionString));
-        session = new Session(connection);
-        var receiveLink = new ReceiverLink(session, "Simon Says receiver link", topicName);
+        var receiveLink = new ReceiverLink(session, topicName, topicName);
 
-        receiveLink.Start(1, (link, msg) =>
+        receiveLink.Start(5, (link, msg) =>
         {
-            var messageType = ((string)msg?.MessageAnnotations["messagetype"]).ToLower();
+            var messageType = (msg.ApplicationProperties["messagetype"] as string)?.ToLower() ?? "";
 
             if (!typeActionMaps.Contains(messageType))
             {
@@ -27,13 +36,15 @@ public class MessageBus(string connectionString, string topicName)
             if (handlerObj.GetType() == typeof(MessageAction))
             {
                 var handler = (MessageAction)handlerObj;
-                handler(msg); // Todo: Convert to the type
+                handler(msg!); // Todo: Convert to the type
             }
             else
             {
                 var handler = (Action)handlerObj;
                 handler();
             }
+
+            link.Accept(msg);
         });
     }
 
@@ -72,4 +83,6 @@ public class MessageBus(string connectionString, string topicName)
     Hashtable outgoingMessages = new Hashtable();
     Hashtable senders = new Hashtable();
     private Session session;
+    private string connectionString;
+    private string topicName;
 }

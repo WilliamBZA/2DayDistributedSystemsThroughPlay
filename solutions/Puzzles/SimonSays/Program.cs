@@ -2,10 +2,15 @@ namespace SimonSays;
 
 using Iot.Device.Mcp23xxx;
 using nanoFramework.Hardware.Esp32;
+using nanoFramework.Networking;
 using SimonSays.Messages;
 using System;
+using System.Collections;
 using System.Device.Gpio;
 using System.Device.I2c;
+using System.Device.Wifi;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading;
 
 public class Program
@@ -22,11 +27,18 @@ public class Program
         var ledController = new LedController(mcp23017);
         ledController.TurnAllLedsOff();
 
+        ledController.SetLed(14, true);
+        if (!ConnectToWiFi("dropitlikeaSquat", "DaisyToddAndButt"))
+        {
+            ledController.FlashAllLeds(5, 100, 13);
+            return;
+        }
+
+        var connectionString = "amqps://RootManageSharedAccessKey:9cRsAnqcRDmA0vyJ%2FKXmcCfOWq%2BVN8m%2Bc%2BASbK6jMA4%3D@sb-cloudevents-test.servicebus.windows.net:5671/?verify=verify_none";
+        var bus = new MessageBus(connectionString, "Simonsays_puzzle");
+
         var buttonPins = new[] { 4, 5, 13, 7, 6, 10, 3, 2, 19, 18, 12, 1 };
         var gpioController = new GpioController();
-
-        var connectionString = "";
-        var bus = new MessageBus(connectionString, "Simonsays_puzzle");
 
         var game = new SimonSaysGame(ledController, gpioController, buttonPins, difficulty: 5, bus);
         
@@ -49,5 +61,28 @@ public class Program
 
         game.ChangeDifficulty(5);
         game.Run();
+    }
+
+    private static bool ConnectToWiFi(string ssid, string password)
+    {
+        WifiAdapter wa = WifiAdapter.FindAllAdapters()[0];
+        wa.Disconnect();
+
+        CancellationTokenSource cs = new(30000);
+        Console.WriteLine("ConnectDHCP");
+        WifiNetworkHelper.Disconnect();
+        bool success;
+
+        success = WifiNetworkHelper.ConnectDhcp(ssid, password, WifiReconnectionKind.Automatic, true, token: cs.Token);
+
+        if (!success)
+        {
+            wa.Disconnect();
+            var res = wa.Connect(ssid, WifiReconnectionKind.Manual, password);
+            success = res.ConnectionStatus == WifiConnectionStatus.Success;
+        }
+
+        Console.WriteLine($"ConnectDHCP exit {success}");
+        return success;
     }
 }

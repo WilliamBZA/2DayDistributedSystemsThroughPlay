@@ -4,6 +4,7 @@ namespace SimonSays
     {
         public static void Main(string[] args)
         {
+            // var connectionString = "Endpoint=sb://sb-cloudevents-test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9cRsAnqcRDmA0vyJ/KXmcCfOWq+VN8m+c+ASbK6jMA4=";
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
