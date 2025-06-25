@@ -1,14 +1,22 @@
+using Microsoft.AspNetCore.Mvc.ViewComponents;
+using SimonSays.Hubs;
+using SimonSays.Messages;
+using SimonSays.Pages;
+
 namespace SimonSays
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            // var connectionString = "Endpoint=sb://sb-cloudevents-test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9cRsAnqcRDmA0vyJ/KXmcCfOWq+VN8m+c+ASbK6jMA4=";
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddSignalR();
+            builder.Services.AddSingleton<MessageBusService>();
+
+            builder.Services.AddHostedService<MessageBusService>(svc => svc.GetService<MessageBusService>());
 
             var app = builder.Build();
 
@@ -21,14 +29,28 @@ namespace SimonSays
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+
+            app.MapHub<EventsHub>("/eventshub");
+
+            var messageBus = app.Services.GetService<MessageBusService>();
+            messageBus.On<CaptureInput>(message =>
+            {
+                Console.WriteLine($"Message {message.ButtonNumber} ");
+            });
+
+            messageBus.On<PuzzleSolved>(msg =>
+            {
+                Console.WriteLine("Puzzle solved");
+            });
+
+            messageBus.Route<ShowSequence>("Simonsays_puzzle");
 
             app.Run();
         }

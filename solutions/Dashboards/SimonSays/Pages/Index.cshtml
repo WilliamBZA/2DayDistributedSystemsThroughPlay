@@ -1,10 +1,41 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-auto text-center">
+            <canvas id="game" width="981" height="472"></canvas>
+        </div>
+        <div class="col align-self-start" style="min-width:220px;">
+            <div class="d-flex flex-column gap-2" style="height: 472px; justify-content: flex-start;">
+                @Html.AntiForgeryToken()
+                <button class="btn btn-outline-primary w-100 mb-2" data-handler="ShowSequence">Show Sequence</button>
+                <button class="btn btn-outline-primary w-100 mb-2" data-handler="ShowSolved">Show Solved</button>
+                <button class="btn btn-outline-primary w-100 mb-2" data-handler="ShowFailed">Show Failed</button>
+                <button class="btn btn-outline-primary w-100 mb-2" data-handler="ResetPattern">Reset Pattern</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container mt-4">
+    <h2>Events</h2>
+    <table class="table table-bordered" id="eventsTable">
+        <thead>
+            <tr>
+                <th>Event Type</th>
+                <th>Timestamp</th>
+                <th>Payload</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Event rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/game.js"></script>
+    <script src="~/js/controls.js"></script>
+}

@@ -50,7 +50,7 @@ public class MessageBus
 
     public void Publish(object message)
     {
-        var destination = outgoingMessages[message.GetType()] as string;
+        var destination = messageDestinations[message.GetType()] as string;
         var sender = senders[destination] as SenderLink;
 
         var msg = new Message(message);
@@ -70,7 +70,7 @@ public class MessageBus
 
     public void Route(Type type, string destination)
     {
-        outgoingMessages[type] = destination;
+        messageDestinations[type] = destination;
 
         if (!senders.Contains(destination))
         {
@@ -80,7 +80,7 @@ public class MessageBus
     }
 
     Hashtable typeActionMaps = new Hashtable();
-    Hashtable outgoingMessages = new Hashtable();
+    Hashtable messageDestinations = new Hashtable();
     Hashtable senders = new Hashtable();
     private Session session;
     private string connectionString;

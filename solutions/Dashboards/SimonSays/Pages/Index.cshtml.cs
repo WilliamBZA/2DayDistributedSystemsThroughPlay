@@ -1,20 +1,53 @@
+namespace SimonSays.Pages;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SimonSays.Messages;
+using System.Threading.Tasks;
 
-namespace SimonSays.Pages
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly ILogger<IndexModel> logger;
+    private readonly MessageBusService bus;
+
+    public IndexModel(MessageBusService bus, ILogger<IndexModel> logger)
     {
-        private readonly ILogger<IndexModel> _logger;
+        this.logger = logger;
+        this.bus = bus;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+    public async Task<IActionResult> OnPostShowSequence()
+    {
+        await bus.SendAsync(new ShowSequence());
+        return new JsonResult(new { success = true });
+    }
 
-        public void OnGet()
-        {
+    public async Task<IActionResult> OnPostShowSolved()
+    {
+        await bus.SendAsync(new ShowSolved());
+        return new JsonResult(new { success = true });
+    }
 
-        }
+    public async Task<IActionResult> OnPostShowFailed()
+    {
+        await bus.SendAsync(new ShowFailed());
+        return new JsonResult(new { success = true });
+    }
+
+    public async Task<IActionResult> OnPostResetPattern()
+    {
+        await bus.SendAsync(new ResetPattern());
+        return new JsonResult(new { success = true });
+    }
+
+    public async Task<IActionResult> OnPostCaptureInput([FromBody] CaptureInputModel input)
+    {
+        await bus.SendAsync(new CaptureInput { ButtonNumber = input.ButtonNumber });
+        return new JsonResult(new { success = true });
+    }
+
+    public class CaptureInputModel
+    {
+        public int ButtonNumber { get; set; }
     }
 }
