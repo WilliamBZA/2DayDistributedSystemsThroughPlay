@@ -34,7 +34,7 @@ public class Program
             return;
         }
 
-        var connectionString = "amqps://RootManageSharedAccessKey:9cRsAnqcRDmA0vyJ%2FKXmcCfOWq%2BVN8m%2Bc%2BASbK6jMA4%3D@sb-cloudevents-test.servicebus.windows.net:5671/?verify=verify_none";
+        var connectionString = "";
         var bus = new MessageBus(connectionString, "Simonsays_puzzle");
 
         var buttonPins = new[] { 4, 5, 13, 7, 6, 10, 3, 2, 19, 18, 12, 1 };

@@ -16,7 +16,7 @@ public class MessageBusService : BackgroundService
     private readonly Dictionary<Type, Delegate> typeActionMaps = new Dictionary<Type, Delegate>();
     private readonly IHubContext<EventsHub> hubContext;
     private readonly ILogger<MessageBusService> logger;
-    private readonly string serviceBusConnectionString = "Endpoint=sb://sb-cloudevents-test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9cRsAnqcRDmA0vyJ/KXmcCfOWq+VN8m+c+ASbK6jMA4=";
+    private readonly string serviceBusConnectionString = "";
     private readonly string queueName = "Puzzle_progress";
 
     public MessageBusService(IHubContext<EventsHub> hubContext, ILogger<MessageBusService> logger)

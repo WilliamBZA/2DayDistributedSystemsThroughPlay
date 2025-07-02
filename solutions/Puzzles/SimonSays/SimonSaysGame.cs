@@ -71,6 +71,8 @@ public class SimonSaysGame
                     // Wrong button, restart
                     ShowFailed();
                     success = false;
+
+                    bus.Publish(new PuzzleFailed());
                     break;
                 }
             }
@@ -79,17 +81,13 @@ public class SimonSaysGame
             {
                 // Success feedback
                 ShowSolved();
-                PublishPuzzleSolved();
+
+                bus.Publish(new PuzzleSolved());
                 return;
             }
 
             Thread.Sleep(1000);
         }
-    }
-
-    private void PublishPuzzleSolved()
-    {
-        bus.Publish(new PuzzleSolved());
     }
 
     public void ChangeDifficulty(int newDifficulty)
@@ -126,6 +124,8 @@ public class SimonSaysGame
     {
         sequence = GenerateRandomSequence(difficulty * 2, buttonPins.Length);
         ShowSequence();
+
+        bus.Publish(new PatternReset());
     }
 
     public void ShowFailed()
@@ -137,6 +137,8 @@ public class SimonSaysGame
     {
         lastButtonPressed = buttonNumber;
         inputEvent.Set();
+
+        bus.Publish(new InputCaptured { ButtonNumber = buttonNumber });
     }
 
     private int[] GenerateRandomSequence(int length, int maxButton)
