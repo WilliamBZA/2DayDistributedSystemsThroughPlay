@@ -84,6 +84,11 @@ public class MessageBusService : BackgroundService
         }
 
         var messageType = messageTypeObj as string;
+        if (messageType is null)
+        {
+            throw new ArgumentNullException("Message type is null or not set in application properties.");
+        }
+
         string payload = GetMessageBody(args.Message);
 
         var evt = new
@@ -120,21 +125,21 @@ public class MessageBusService : BackgroundService
     {
         var amqpMessage = message.GetRawAmqpMessage();
 
-        if (amqpMessage.Body.TryGetValue(out object value))
+        if (amqpMessage.Body.TryGetValue(out var value))
         {
-            return value?.ToString();
+            return value?.ToString() ?? string.Empty;
         }
-        else if (amqpMessage.Body.TryGetSequence(out IEnumerable<IList<object>>? sequence))
+        else if (amqpMessage.Body.TryGetSequence(out IEnumerable<IList<object>>? sequence) && sequence != null)
         {
             return string.Join("\n", sequence.Select(seq => string.Join(", ", seq)));
         }
-        else if (amqpMessage.Body.TryGetData(out IEnumerable<ReadOnlyMemory<byte>>? dataSections))
+        else if (amqpMessage.Body.TryGetData(out IEnumerable<ReadOnlyMemory<byte>>? dataSections) && dataSections != null)
         {
             var combinedBytes = dataSections.SelectMany(b => b.ToArray()).ToArray();
             return Encoding.UTF8.GetString(combinedBytes);
         }
 
-        return null;
+        return string.Empty;
     }
 
     private async Task ProcessErrorAsync(ProcessErrorEventArgs args)
