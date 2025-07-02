@@ -3,7 +3,6 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      "provider": "unpkg",
       "library": "@microsoft/signalr@8.0.7",
       "destination": "wwwroot/js/signalr/",
       "files": [
@@ -12,13 +11,8 @@
       ]
     },
     {
-      "provider": "unpkg",
       "library": "bootstrap@5.3.7",
-      "destination": "wwwroot/lib/bootstrap/",
-      "files": [
-        "dist/js/bootstrap.min.js",
-        "dist/css/bootstrap.min.css"
-      ]
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }
