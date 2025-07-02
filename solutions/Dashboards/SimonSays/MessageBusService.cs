@@ -4,6 +4,7 @@ using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using SimonSays.Hubs;
+using System.Text;
 using System.Text.Json;
 using static SimonSays.Pages.IndexModel;
 
@@ -16,13 +17,15 @@ public class MessageBusService : BackgroundService
     private readonly Dictionary<Type, Delegate> typeActionMaps = new Dictionary<Type, Delegate>();
     private readonly IHubContext<EventsHub> hubContext;
     private readonly ILogger<MessageBusService> logger;
-    private readonly string serviceBusConnectionString = "";
+    private string serviceBusConnectionString;
     private readonly string queueName = "Puzzle_progress";
 
     public MessageBusService(IHubContext<EventsHub> hubContext, ILogger<MessageBusService> logger)
     {
         this.hubContext = hubContext;
         this.logger = logger;
+
+        serviceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnectionString")!;
 
         serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
         processor = serviceBusClient.CreateProcessor(queueName);
@@ -81,7 +84,7 @@ public class MessageBusService : BackgroundService
         }
 
         var messageType = messageTypeObj as string;
-        var payload = args.Message.Body.ToString();
+        string payload = GetMessageBody(args.Message);
 
         var evt = new
         {
@@ -111,6 +114,27 @@ public class MessageBusService : BackgroundService
                 }
             }
         }
+    }
+
+    private static string GetMessageBody(ServiceBusReceivedMessage message)
+    {
+        var amqpMessage = message.GetRawAmqpMessage();
+
+        if (amqpMessage.Body.TryGetValue(out object value))
+        {
+            return value?.ToString();
+        }
+        else if (amqpMessage.Body.TryGetSequence(out IEnumerable<IList<object>>? sequence))
+        {
+            return string.Join("\n", sequence.Select(seq => string.Join(", ", seq)));
+        }
+        else if (amqpMessage.Body.TryGetData(out IEnumerable<ReadOnlyMemory<byte>>? dataSections))
+        {
+            var combinedBytes = dataSections.SelectMany(b => b.ToArray()).ToArray();
+            return Encoding.UTF8.GetString(combinedBytes);
+        }
+
+        return null;
     }
 
     private async Task ProcessErrorAsync(ProcessErrorEventArgs args)
