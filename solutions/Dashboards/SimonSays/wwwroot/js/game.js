@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Create buttons
     for (let row = 0; row < 2; row++) {
         for (let col = 0; col < 6; col++) {
-            const buttonNumber = row * 3 + col;
+            const buttonNumber = row * 6 + col;
             buttons.push({
                 x: startX + col * (buttonWidth + paddingx),
                 y: startY - row * (buttonHeight + paddingy),
