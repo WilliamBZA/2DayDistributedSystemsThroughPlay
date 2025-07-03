@@ -67,8 +67,6 @@ public class Program
         bus.Route(typeof(DifficultyChanged), "Puzzle_progress");
 
         bus.Start();
-
-        game.ChangeDifficulty(5);
         game.Run();
     }
 

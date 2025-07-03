@@ -18,10 +18,11 @@ public class SimonSaysGame
 
     public SimonSaysGame(LedController ledController, GpioController gpioController, int[] buttonPins, int difficulty, MessageBus bus)
     {
+        this.bus = bus;
         this.ledController = ledController;
         this.buttonPins = buttonPins;
         this.difficulty = difficulty;
-        this.bus = bus;
+        sequence = GenerateRandomSequence(difficulty * 2, buttonPins.Length);
 
         for (var i = 0; i < this.buttonPins.Length; i++)
         {
