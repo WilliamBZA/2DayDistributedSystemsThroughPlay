@@ -15,6 +15,7 @@
     <RootNamespace>KeyDrop.Messages.Nf</RootNamespace>
     <AssemblyName>KeyDrop.Messages.Nf</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <langversion>12.0</langversion>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
@@ -23,7 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>..\KeyDrop\packages\nanoFramework.CoreLibrary.1.17.11\lib\mscorlib.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.17.11\lib\mscorlib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

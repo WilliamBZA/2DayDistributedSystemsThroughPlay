@@ -1,16 +1,27 @@
+namespace KeyDrop;
+
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
-namespace KeyDrop
+public class Program
 {
-    public class Program
+    public static void Main()
     {
-        public static void Main()
-        {
-            Debug.WriteLine("Hello from nanoFramework!");
+        var connectionString = LoadConnectionString();
 
-            Thread.Sleep(Timeout.Infinite);
+        Thread.Sleep(Timeout.Infinite);
+    }
+
+    private static string LoadConnectionString()
+    {
+        using (var file = File.OpenRead("I:\\connection.sys"))
+        {
+            using (var reader = new StreamReader(file))
+            {
+                return reader.ReadLine();
+            }
         }
     }
 }
