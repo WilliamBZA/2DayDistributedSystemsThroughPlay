@@ -55,6 +55,7 @@ namespace SimonSays
             messageBus.Route<ShowSolved>("Simonsays_puzzle");
             messageBus.Route<ResetPattern>("Simonsays_puzzle");
             messageBus.Route<CaptureInput>("Simonsays_puzzle");
+            messageBus.Route<ChangeDifficulty>("Simonsays_puzzle");
 
             app.Run();
         }

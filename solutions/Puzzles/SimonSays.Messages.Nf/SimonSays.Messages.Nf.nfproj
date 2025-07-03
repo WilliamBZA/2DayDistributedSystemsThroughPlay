@@ -20,6 +20,8 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="..\..\Dashboards\SimonSays.Messages\CaptureInput.cs" Link="CaptureInput.cs" />
+    <Compile Include="..\..\Dashboards\SimonSays.Messages\ChangeDifficulty.cs" Link="ChangeDifficulty.cs" />
+    <Compile Include="..\..\Dashboards\SimonSays.Messages\DifficultyChanged.cs" Link="DifficultyChanged.cs" />
     <Compile Include="..\..\Dashboards\SimonSays.Messages\InputCaptured.cs" Link="InputCaptured.cs" />
     <Compile Include="..\..\Dashboards\SimonSays.Messages\PatternReset.cs" Link="PatternReset.cs" />
     <Compile Include="..\..\Dashboards\SimonSays.Messages\PuzzleFailed.cs" Link="PuzzleFailed.cs" />

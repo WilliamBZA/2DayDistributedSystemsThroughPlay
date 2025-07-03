@@ -13,6 +13,13 @@
                 <button class="btn btn-outline-primary w-100 mb-2" data-handler="ShowSolved">Show Solved</button>
                 <button class="btn btn-outline-primary w-100 mb-2" data-handler="ShowFailed">Show Failed</button>
                 <button class="btn btn-outline-primary w-100 mb-2" data-handler="ResetPattern">Reset Pattern</button>
+                <div class="mb-2">
+                    <label for="difficultyInput" class="form-label">Difficulty</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <input type="number" id="difficultyInput" class="form-control" placeholder="Enter difficulty" value="5" style="max-width: 100px;" min="1" max="10" />
+                        <button class="btn btn-outline-primary" data-handler="ChangeDifficulty">Change Difficulty</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

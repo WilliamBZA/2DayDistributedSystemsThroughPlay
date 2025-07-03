@@ -47,16 +47,24 @@ public class Program
         bus.On(typeof(ShowSolved), game.ShowSolved);
         bus.On(typeof(ResetPattern), game.ResetPattern);
         bus.On(typeof(ShowFailed), game.ShowFailed);
+        
         bus.On(typeof(CaptureInput), (message) =>
         {
             var msg = message as CaptureInput;
             game.CaptureInput(msg.ButtonNumber);
         });
 
+        bus.On(typeof(ChangeDifficulty), (message) =>
+        {
+            var msg = message as ChangeDifficulty;
+            game.ChangeDifficulty(msg.NewDifficulty);
+        });
+
         bus.Route(typeof(InputCaptured), "Puzzle_progress");
         bus.Route(typeof(PuzzleSolved), "Puzzle_progress");
         bus.Route(typeof(PuzzleFailed), "Puzzle_progress");
         bus.Route(typeof(PatternReset), "Puzzle_progress");
+        bus.Route(typeof(DifficultyChanged), "Puzzle_progress");
 
         bus.Start();
 

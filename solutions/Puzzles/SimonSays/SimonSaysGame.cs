@@ -91,8 +91,10 @@ public class SimonSaysGame
 
     public void ChangeDifficulty(int newDifficulty)
     {
-        difficulty = newDifficulty;
+        difficulty = Math.Max(Math.Min(newDifficulty, 10), 1);
         sequence = GenerateRandomSequence(difficulty * 2, buttonPins.Length);
+
+        bus.Publish(new DifficultyChanged { NewDifficulty = newDifficulty });
     }
 
     public void ShowSolved()

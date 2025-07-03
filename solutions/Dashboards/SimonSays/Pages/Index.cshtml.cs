@@ -46,8 +46,19 @@ public class IndexModel : PageModel
         return new JsonResult(new { success = true });
     }
 
+    public async Task<IActionResult> OnPostChangeDifficulty([FromBody] ChangeDifficultyModel input)
+    {
+        await bus.SendAsync(new ChangeDifficulty { NewDifficulty = input.NewDifficulty });
+        return new JsonResult(new { success = true });
+    }
+
     public class CaptureInputModel
     {
         public int ButtonNumber { get; set; }
+    }
+
+    public class ChangeDifficultyModel
+    {
+        public int NewDifficulty { get; set; }
     }
 }
