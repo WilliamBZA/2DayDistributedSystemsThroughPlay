@@ -70,6 +70,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KeyDrop.Messages.Nf\KeyDrop.Messages.Nf.nfproj" />
     <ProjectReference Include="..\MessageBus.Nf\MessageBus.Nf.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />

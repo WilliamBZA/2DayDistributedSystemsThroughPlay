@@ -54,7 +54,6 @@ public class Program
             }
         }
 
-        Thread.Sleep(Timeout.Infinite);
     }
 
     private static bool ConnectToWiFi(string ssid, string password)
