@@ -27,7 +27,7 @@ public class MessageBus
     {
         var receiveLink = new ReceiverLink(session, topicName, topicName);
 
-        receiveLink.Start(5, (link, msg) =>
+        receiveLink.Start(1, (link, msg) =>
         {
             var messageType = (msg.ApplicationProperties["messagetype"] as string) ?? "";
             var type = Type.GetType(messageType);
