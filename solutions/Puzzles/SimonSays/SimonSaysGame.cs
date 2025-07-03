@@ -125,7 +125,7 @@ public class SimonSaysGame
         sequence = GenerateRandomSequence(difficulty * 2, buttonPins.Length);
         ShowSequence();
 
-        bus.Publish(new PatternReset());
+        bus.Publish(new PatternReset { NewPattern = sequence });
     }
 
     public void ShowFailed()
