@@ -18,7 +18,7 @@ public class MessageBusService : BackgroundService
     private readonly IHubContext<EventsHub> hubContext;
     private readonly ILogger<MessageBusService> logger;
     private string serviceBusConnectionString;
-    private readonly string queueName = "Puzzle_progress";
+    private readonly string queueName = "simon_says_dashboard";
 
     public MessageBusService(IHubContext<EventsHub> hubContext, ILogger<MessageBusService> logger)
     {

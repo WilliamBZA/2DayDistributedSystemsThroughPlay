@@ -26,15 +26,14 @@ public class SimonSaysGame
         for (var i = 0; i < this.buttonPins.Length; i++)
         {
             var button = gpioController.OpenPin(this.buttonPins[i], PinMode.InputPullDown);
-            button.DebounceTimeout = TimeSpan.FromMilliseconds(50);
+            button.DebounceTimeout = TimeSpan.FromMilliseconds(100);
             var buttonNumber = i + 1;
 
             button.ValueChanged += (s, e) =>
             {
                 if (e.ChangeType == PinEventTypes.Rising)
                 {
-                    lastButtonPressed = buttonNumber;
-                    inputEvent.Set();
+                    CaptureInput(buttonNumber);
                 }
             };
         }

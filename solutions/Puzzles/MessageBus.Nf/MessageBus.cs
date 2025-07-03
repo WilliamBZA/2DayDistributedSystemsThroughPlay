@@ -1,10 +1,12 @@
 ﻿namespace SimonSays;
 using Amqp;
+using Amqp.Framing;
 using nanoFramework.Json;
 using System;
 using System.Collections;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 public class MessageBus
 {
@@ -59,16 +61,25 @@ public class MessageBus
 
     public void Publish(object message)
     {
-        var destination = messageDestinations[message.GetType()] as string;
-        var sender = senders[destination] as SenderLink;
+        new Thread(new ThreadStart(() =>
+        {
+            var destination = messageDestinations[message.GetType()] as string;
+            var sender = senders[destination] as SenderLink;
 
-        var json = JsonConvert.SerializeObject(message);
+            if (sender != null)
+            {
+                var json = JsonConvert.SerializeObject(message);
 
-        var msg = new Message(json);
-        msg.ApplicationProperties = new Amqp.Framing.ApplicationProperties();
-        msg.ApplicationProperties["messagetype"] = message.GetType().FullName;
+                Console.WriteLine($"Sending message type {message.GetType().ToString()} with body '{json}' to {sender.Name}");
 
-        sender.Send(msg);
+                var msg = new Message(json);
+                msg.ApplicationProperties = new Amqp.Framing.ApplicationProperties();
+                msg.ApplicationProperties["messagetype"] = message.GetType().FullName;
+
+                sender.Send(msg);
+                Console.WriteLine("Sent");
+            }
+        })).Start();
     }
 
     public void On(Type type, Action showSequence)

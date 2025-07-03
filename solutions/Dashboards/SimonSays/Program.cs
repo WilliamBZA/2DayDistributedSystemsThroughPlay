@@ -16,7 +16,7 @@ namespace SimonSays
             builder.Services.AddSignalR();
             builder.Services.AddSingleton<MessageBusService>();
 
-            builder.Services.AddHostedService<MessageBusService>(svc => svc.GetService<MessageBusService>());
+            builder.Services.AddHostedService<MessageBusService>(svc => svc.GetService<MessageBusService>()!);
 
             var app = builder.Build();
 
@@ -39,8 +39,8 @@ namespace SimonSays
 
             app.MapHub<EventsHub>("/eventshub");
 
-            var messageBus = app.Services.GetService<MessageBusService>();
-            messageBus.On<CaptureInput>(message =>
+            var messageBus = app.Services.GetService<MessageBusService>()!;
+            messageBus.On<InputCaptured>(message =>
             {
                 Console.WriteLine($"Message {message.ButtonNumber} ");
             });

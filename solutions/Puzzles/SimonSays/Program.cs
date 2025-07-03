@@ -9,6 +9,7 @@ using System.Collections;
 using System.Device.Gpio;
 using System.Device.I2c;
 using System.Device.Wifi;
+using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -34,7 +35,7 @@ public class Program
             return;
         }
 
-        var connectionString = "";
+        var connectionString = LoadConnectionString();
         var bus = new MessageBus(connectionString, "Simonsays_puzzle");
 
         var buttonPins = new[] { 4, 5, 13, 7, 6, 10, 3, 2, 19, 18, 12, 1 };
@@ -84,5 +85,16 @@ public class Program
 
         Console.WriteLine($"ConnectDHCP exit {success}");
         return success;
+    }
+
+    private static string LoadConnectionString()
+    {
+        using (var file = File.OpenRead("I:\\connection.sys"))
+        {
+            using (var reader = new StreamReader(file))
+            {
+                return reader.ReadLine();
+            }
+        }
     }
 }
