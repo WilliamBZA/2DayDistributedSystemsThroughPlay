@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonSays", "SimonSays\SimonSays.csproj", "{EDD56DB1-46AB-40BF-9017-02DCD665EBEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimonSays.Messages", "SimonSays.Messages\SimonSays.Messages.csproj", "{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyDrop.Messages", "KeyDrop.Messages\KeyDrop.Messages.csproj", "{53E014BE-DB4F-4D0B-8965-2DBDA20BB010}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45355DCF-7B90-4F44-9CE5-1B9C2837E9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E014BE-DB4F-4D0B-8965-2DBDA20BB010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E014BE-DB4F-4D0B-8965-2DBDA20BB010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E014BE-DB4F-4D0B-8965-2DBDA20BB010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E014BE-DB4F-4D0B-8965-2DBDA20BB010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
