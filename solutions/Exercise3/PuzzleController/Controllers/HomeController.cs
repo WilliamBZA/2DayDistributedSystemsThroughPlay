@@ -1,4 +1,5 @@
 using Azure.Messaging.ServiceBus;
+using MessagingHelper;
 using Microsoft.AspNetCore.Mvc;
 using PuzzleController.Models;
 using System.Diagnostics;
@@ -25,6 +26,25 @@ namespace PuzzleController.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SendUnlockMessage()
+        {
+            var connectionString = "connection string";
+
+            // Just for workshop purposes, don't do this every time
+            var helper = new ServiceBusHelper(connectionString);
+            await helper.EnsureQueueExists("williamcluedispenser");
+
+            await using var client = new ServiceBusClient(connectionString);
+            await using var sender = client.CreateSender("williamcluedispenser");
+
+            var message = new ServiceBusMessage("{}");
+            await sender.SendMessageAsync(message);
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         public IActionResult Index()
         {
