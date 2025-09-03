@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "SimulatedPuzzle\\SimulatedPuzzle.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Dashboard\\Dashboard.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "PuzzleController\\PuzzleController.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
