@@ -6,7 +6,6 @@ using Puzzle.Messages;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
-using System.Transactions;
 
 namespace PuzzleController
 {
@@ -39,27 +38,28 @@ namespace PuzzleController
                 {
                     connection.Open();
 
-                    using (var deduplicationCommand = connection.CreateCommand())
-                    {
-                        deduplicationCommand.CommandText = @"
-                                INSERT INTO PuzzleControllerMessageDeduplication (MessageId, ProcessedAt)
-                                VALUES (@MessageId, GETDATE())";
-                        deduplicationCommand.Parameters.Add("@MessageId", System.Data.SqlDbType.NVarChar).Value = messageId;
-
-                        try
-                        {
-                            await deduplicationCommand.ExecuteNonQueryAsync();
-                        }
-                        catch (SqlException ex) when (ex.Number == 2627)
-                        {
-                            Console.WriteLine("Duplicate message. Discarding.");
-                            await args.CompleteMessageAsync(args.Message);
-                            return;
-                        }
-                    }
-
                     using (var transaction = connection.BeginTransaction())
                     {
+                        using (var deduplicationCommand = connection.CreateCommand())
+                        {
+                            deduplicationCommand.Transaction = transaction;
+                            deduplicationCommand.CommandText = @"
+                                INSERT INTO PuzzleControllerMessageDeduplication (MessageId, ProcessedAt)
+                                VALUES (@MessageId, GETDATE())";
+                            deduplicationCommand.Parameters.Add("@MessageId", System.Data.SqlDbType.NVarChar).Value = messageId;
+
+                            try
+                            {
+                                await deduplicationCommand.ExecuteNonQueryAsync();
+                            }
+                            catch (SqlException ex) when (ex.Number == 2627)
+                            {
+                                Console.WriteLine("Duplicate message. Discarding.");
+                                await args.CompleteMessageAsync(args.Message);
+                                return;
+                            }
+                        }
+
                         // Upsert customer with $20 added to total
                         using (var command = connection.CreateCommand())
                         {
