@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Puzzle.Messages;
 using PuzzleController.Messages;
+using System.Data;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
@@ -20,6 +21,9 @@ namespace PuzzleController
 
             await helper.EnsureQueueExists("williampuzzlecontroller");
             await helper.EnsureQueueExists("williampuzzle");
+
+            var dispatcher = new OutgoingMessageDispatcher(helper, "williampuzzle");
+            var dispatcherTask = Task.Run(() => dispatcher.RunAsync());
 
             var client = new ServiceBusClient(connectionString);
             var processor = client.CreateProcessor("williampuzzlecontroller", new ServiceBusProcessorOptions
@@ -83,7 +87,7 @@ namespace PuzzleController
                             {
                                 IncreaseAmount = 20,
                                 TotalAfterIncrease = 20
-                            });
+                            }, connection, transaction);
 
                             Console.WriteLine($"Processed message {args.Message.MessageId}");
                             transaction.Commit();
@@ -132,9 +136,21 @@ namespace PuzzleController
             }
         }
 
-        private static async Task PublishMessage(CustomerTotalIncreased customerTotalIncreased)
+        private static async Task PublishMessage(CustomerTotalIncreased customerTotalIncreased, SqlConnection connection, SqlTransaction transaction)
         {
-            await helper.SendMessageToQueue("williampuzzle", JsonSerializer.Serialize(customerTotalIncreased));
+            using (var command = connection.CreateCommand())
+            {
+                command.Transaction = transaction;
+                command.CommandText = @"
+                INSERT INTO OutgoingMessages (Body, Headers, DestinationAddress)
+                VALUES (@MessageBody, @MessageHeaders, @DestinationAddress)";
+
+                command.Parameters.Add("@MessageBody", SqlDbType.NVarChar).Value = JsonSerializer.Serialize(customerTotalIncreased);
+                command.Parameters.Add("@MessageHeaders", SqlDbType.NVarChar).Value = JsonSerializer.Serialize(new Dictionary<string, string> { { "MessageType", "CustomerTotalIncreased" } }) ;
+                command.Parameters.Add("@DestinationAddress", SqlDbType.NVarChar).Value = "williampuzzle";
+
+                await command.ExecuteNonQueryAsync();
+            }
         }
 
         private static Task Processor_ProcessErrorAsync(ProcessErrorEventArgs arg)

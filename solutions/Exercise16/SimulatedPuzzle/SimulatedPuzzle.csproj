@@ -9,13 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MessagingHelper\MessagingHelper.csproj" />
     <ProjectReference Include="..\Puzzle.Messages\Puzzle.Messages.csproj" />
-    <ProjectReference Include="..\PuzzleController.Messages\PuzzleController.Messages.csproj" />
   </ItemGroup>
 
 </Project>
