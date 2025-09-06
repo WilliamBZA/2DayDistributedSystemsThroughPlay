@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatedPuzzle", "SimulatedPuzzle\SimulatedPuzzle.csproj", "{4002F0FC-08A1-4D47-8DCE-9A371A0E3C67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagingHelper", "MessagingHelper\MessagingHelper.csproj", "{74677D72-654A-47F3-8914-09134BB6A2DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{7A48754F-18BB-455F-A8D0-AAB068AE044C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuzzleController", "PuzzleController\PuzzleController.csproj", "{8D464D41-9520-46C3-AFF1-4EDADC5D96C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puzzle.Messages", "Puzzle.Messages\Puzzle.Messages.csproj", "{0D4ADF03-F44B-4CDD-9A0E-324298D7607B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuzzleController.Messages", "PuzzleController.Messages\PuzzleController.Messages.csproj", "{6DC01D97-3E85-4792-975D-A5C4B93A5E56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4002F0FC-08A1-4D47-8DCE-9A371A0E3C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4002F0FC-08A1-4D47-8DCE-9A371A0E3C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4002F0FC-08A1-4D47-8DCE-9A371A0E3C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4002F0FC-08A1-4D47-8DCE-9A371A0E3C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74677D72-654A-47F3-8914-09134BB6A2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74677D72-654A-47F3-8914-09134BB6A2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74677D72-654A-47F3-8914-09134BB6A2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74677D72-654A-47F3-8914-09134BB6A2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A48754F-18BB-455F-A8D0-AAB068AE044C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A48754F-18BB-455F-A8D0-AAB068AE044C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A48754F-18BB-455F-A8D0-AAB068AE044C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A48754F-18BB-455F-A8D0-AAB068AE044C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D464D41-9520-46C3-AFF1-4EDADC5D96C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D464D41-9520-46C3-AFF1-4EDADC5D96C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D464D41-9520-46C3-AFF1-4EDADC5D96C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D464D41-9520-46C3-AFF1-4EDADC5D96C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4ADF03-F44B-4CDD-9A0E-324298D7607B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4ADF03-F44B-4CDD-9A0E-324298D7607B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4ADF03-F44B-4CDD-9A0E-324298D7607B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4ADF03-F44B-4CDD-9A0E-324298D7607B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC01D97-3E85-4792-975D-A5C4B93A5E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC01D97-3E85-4792-975D-A5C4B93A5E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC01D97-3E85-4792-975D-A5C4B93A5E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC01D97-3E85-4792-975D-A5C4B93A5E56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4219A480-7330-4F8C-B86B-F1B5E985F15D}
+	EndGlobalSection
+EndGlobal
