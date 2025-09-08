@@ -33,41 +33,12 @@ namespace PuzzleController
             {
                 var body = args.Message.Body.ToString();
                 Console.WriteLine($"Received message: {body}");
-
-                // Upsert customer with $20 added to total
-                using (var connection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=CopenhagenWorkshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
+                if (!await ImmediateRetries(args, body))
                 {
-                    connection.Open();
 
-                    using (var transaction = connection.BeginTransaction())
-                    {
-                        using (var command = connection.CreateCommand())
-                        {
-                            command.Transaction = transaction;
-                            command.CommandText = @"
-                    MERGE Customers AS target
-                    USING (SELECT @CustomerName AS CustomerName) AS source
-                    ON target.CustomerName = source.CustomerName
-                    WHEN MATCHED THEN
-                        UPDATE SET Total = Total + 20
-                    WHEN NOT MATCHED THEN
-                        INSERT (ID, CustomerName, Total)
-                        VALUES (NEWID(), @CustomerName, 20);";
-
-                            command.Parameters.Add("CustomerName", System.Data.SqlDbType.NVarChar).Value = "NDC Workshops";
-                            await command.ExecuteNonQueryAsync();
-
-                            if (args.Message.EnqueuedTime <= DateTime.Now.AddSeconds(20))
-                            {
-                                throw new Exception("Ooops!");
-                            }
-
-                            transaction.Commit();
-                            connection.Close();
-                            await args.CompleteMessageAsync(args.Message);
-                        }
-                    }
                 }
+
+                await args.CompleteMessageAsync(args.Message);
             };
 
             await processor.StartProcessingAsync();
@@ -100,6 +71,59 @@ namespace PuzzleController
                     await sender.SendMessageAsync(captureInputMessage);
 
                     Console.WriteLine($"CaptureInput message with button number {buttonNumber} sent\n");
+                }
+            }
+        }
+
+        private static async Task<bool> ImmediateRetries(ProcessMessageEventArgs args, string body)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                try
+                {
+                    await HandleMessage(body, args.Message.EnqueuedTime);
+                    return true;
+                }
+                catch (Exception)
+                { }
+            }
+
+            return false;
+        }
+
+        private static async Task HandleMessage(string body, DateTimeOffset enqueuedTime)
+        {
+            // Upsert customer with $20 added to total
+            using (var connection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=CopenhagenWorkshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.Transaction = transaction;
+                        command.CommandText = @"
+                    MERGE Customers AS target
+                    USING (SELECT @CustomerName AS CustomerName) AS source
+                    ON target.CustomerName = source.CustomerName
+                    WHEN MATCHED THEN
+                        UPDATE SET Total = Total + 20
+                    WHEN NOT MATCHED THEN
+                        INSERT (ID, CustomerName, Total)
+                        VALUES (NEWID(), @CustomerName, 20);";
+
+                        command.Parameters.Add("CustomerName", System.Data.SqlDbType.NVarChar).Value = "NDC Workshops";
+                        await command.ExecuteNonQueryAsync();
+
+                        if (enqueuedTime <= DateTime.Now.AddSeconds(20))
+                        {
+                            throw new Exception("Ooops!");
+                        }
+
+                        transaction.Commit();
+                        connection.Close();
+                    }
                 }
             }
         }
